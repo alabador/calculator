@@ -9,6 +9,25 @@ body {
     padding: 0;
 }
 
+.calculator {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.calculator-container {
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+
+.screen-container {
+    border: 2px black solid;
+    height: 100px;
+}
+
 .button-container {
     display: grid;
     grid-template-columns: repeat(4, 25%);
