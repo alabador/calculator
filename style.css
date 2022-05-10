@@ -13,3 +13,7 @@ body {
     display: grid;
     grid-template-columns: repeat(4, 25%);
 }
+
+.number[value="0"] {
+    grid-column: 1/span 2;
+}
