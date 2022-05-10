@@ -1,7 +1,8 @@
-
-
 /* Variables */
-
+:root {
+    --main-bg: rgb(131, 194, 136);
+    --calculator-bg: rgb(43, 43, 43); 
+}
 
 /*Reset*/
 body {
@@ -15,22 +16,27 @@ body {
     align-items: center;
     justify-content: center;
     height: 100vh;
+    background-color: var(--main-bg);
 }
 
 .calculator-container {
     display: flex;
     flex-direction: column;
-    width: 50%;
+    width: 350px;
+    height: 50vh;
+    padding: 20px;
+    background-color: var(--calculator-bg);
 }
 
 .screen-container {
-    border: 2px black solid;
+    border: 3px black solid;
     height: 100px;
 }
 
 .button-container {
     display: grid;
     grid-template-columns: repeat(4, 25%);
+    height: 100%;
 }
 
 .number[value="0"] {
