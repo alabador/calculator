@@ -1,13 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=Jura:wght@300;400;500;600;700&display=swap');
+
 /* Variables */
 :root {
     --main-bg: rgb(131, 194, 136);
     --calculator-bg: rgb(43, 43, 43); 
+    --gray: rgb(168, 168, 168);
+    --button: rgb(110, 110, 110);
+    --font-color: rgb(238, 238, 238);
 }
 
 /*Reset*/
-body {
+* {
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
+    font-family: 'Jura', sans-serif;
 }
 
 .calculator {
@@ -22,15 +29,18 @@ body {
 .calculator-container {
     display: flex;
     flex-direction: column;
-    width: 350px;
-    height: 50vh;
+    width: 450px;
+    height: 65vh;
     padding: 20px;
     background-color: var(--calculator-bg);
+    box-shadow: 0 5px 10px rgba(43, 43, 43, 0.6), 0px 10px 20px rgba(63, 63, 63, 0.3);
 }
 
 .screen-container {
-    border: 3px black solid;
-    height: 100px;
+    border: 3px var(--gray) solid;
+    height: 150px;
+    background-color: white;
+    margin-bottom: 10px;
 }
 
 .button-container {
@@ -39,6 +49,14 @@ body {
     height: 100%;
 }
 
-.number[value="0"] {
+button.button {
+    cursor: pointer;
+    background-color: var(--button);
+    border-style: outset;
+    font-size: 2em;
+    color: var(--font-color);
+}
+
+.button[value="0"] {
     grid-column: 1/span 2;
 }
