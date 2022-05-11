@@ -1,4 +1,7 @@
-/*Variables*/
+/*DOM Elements*/
+const display = document.querySelector('.screen-text');
+const numbers = document.querySelectorAll('.number');
+
 
 
 /*Basic Math Functions*/
@@ -18,7 +21,13 @@ function divide(a,b) {
     return a/b;
 };
 
-/*Takes an operator and 2 numbers*/
 function operate(operator,a,b) {
     return operator(a,b);
 }
+
+/*Link buttons to display value*/
+numbers.forEach(number => {
+    number.addEventListener('click', function() {
+        console.log(number.value);        
+    });
+});
