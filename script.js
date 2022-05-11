@@ -2,7 +2,9 @@
 const display = document.querySelector('.screen-text');
 const numbers = document.querySelectorAll('.number');
 
-
+/*Saved Values*/
+let displayValue = '';
+display.innerText = 0;
 
 /*Basic Math Functions*/
 function add(a,b) {
@@ -26,8 +28,9 @@ function operate(operator,a,b) {
 }
 
 /*Link buttons to display value*/
-numbers.forEach(number => {
+const clickNumber = numbers.forEach(number => {
     number.addEventListener('click', function() {
-        console.log(number.value);        
+        displayValue += number.value;
+        display.innerText = displayValue;
     });
 });
