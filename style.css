@@ -41,6 +41,16 @@
     height: 150px;
     background-color: white;
     margin-bottom: 10px;
+    
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.screen-text {
+    text-align: right;
+    font-size: 5em;
+
 }
 
 .button-container {
@@ -53,7 +63,7 @@ button.button {
     cursor: pointer;
     background-color: var(--button);
     border-style: outset;
-    font-size: 2em;
+    font-size: 1.5em;
     color: var(--font-color);
 }
 
