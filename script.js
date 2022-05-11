@@ -29,8 +29,14 @@ function operate(operator,a,b) {
 
 /*Link buttons to display value*/
 const clickNumber = numbers.forEach(number => {
-    number.addEventListener('click', function() {
-        displayValue += number.value;
-        display.innerText = displayValue;
-    });
+    number.addEventListener('click', changeDisplay);
 });
+
+
+
+
+/*Refactored Functions*/
+function changeDisplay(e) {
+    displayValue += e.target.value;
+    display.innerText = displayValue;
+}
