@@ -49,19 +49,6 @@ numbers.forEach(number => {
     number.addEventListener('click', changeDisplay);
 });
 
-/*Connecting buttons and operators*/
-// operators.forEach(operator => {
-//     operator.addEventListener('click', function(e) {
-//         if (e.target.value === "+"){
-//             displayValue = '';
-//         }
-//     })
-// })
-
-
-// function chooseOperator() {
-    
-// }
 
 plus.addEventListener('click', function() {
     operation = "add";
@@ -69,7 +56,6 @@ plus.addEventListener('click', function() {
     displayValue = '';
     display.innerText = currentValue;
     console.log(currentValue);
-    // currentValue += add(currentValue, Number(displayValue));
 })
 
 equals.addEventListener('click', function() {
