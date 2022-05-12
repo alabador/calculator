@@ -1,10 +1,16 @@
 /*DOM Elements*/
 const display = document.querySelector('.screen-text');
 const numbers = document.querySelectorAll('.number');
+const operators = document.querySelectorAll('.operator');
+const equals = document.querySelector('.equals');
+const plus = document.querySelector('.plus');
 
 /*Saved Values*/
 let displayValue = '';
 display.innerText = 0;
+let currentValue = Number(displayValue);
+let secondValue = Number(displayValue);
+let operation = "";
 
 /*Basic Math Functions*/
 function add(a,b) {
@@ -24,19 +30,62 @@ function divide(a,b) {
 };
 
 function operate(operator,a,b) {
-    return operator(a,b);
+    if (operator === 'add'){
+        return add(a,b);
+    }
+    else if (operator === 'subtract'){
+        return subtract(a,b);
+    }
+    else if (operator === 'multiply'){
+        return multiply(a,b);
+    }
+    else if (operator === 'divide'){
+        return divide(a,b);
+    }
 }
 
 /*Link buttons to display value*/
-const clickNumber = numbers.forEach(number => {
+numbers.forEach(number => {
     number.addEventListener('click', changeDisplay);
 });
 
+/*Connecting buttons and operators*/
+// operators.forEach(operator => {
+//     operator.addEventListener('click', function(e) {
+//         if (e.target.value === "+"){
+//             displayValue = '';
+//         }
+//     })
+// })
 
 
+// function chooseOperator() {
+    
+// }
+
+plus.addEventListener('click', function() {
+    operation = "add";
+    currentValue = add(currentValue, Number(displayValue));
+    displayValue = '';
+    display.innerText = currentValue;
+    console.log(currentValue);
+    // currentValue += add(currentValue, Number(displayValue));
+})
+
+equals.addEventListener('click', function() {
+    display.innerText = operate(operation, currentValue, Number(displayValue));
+    console.log('did this work?')
+})
 
 /*Refactored Functions*/
 function changeDisplay(e) {
     displayValue += e.target.value;
     display.innerText = displayValue;
+    return displayValue;
 }
+
+function valueReset() {
+    displayValue = '';
+    display.innerText = displayValue;
+}
+
