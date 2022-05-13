@@ -1,15 +1,18 @@
 /*DOM Elements*/
 const display = document.querySelector('.screen-text');
 const numbers = document.querySelectorAll('.number');
-const operators = document.querySelectorAll('.operator');
 const equals = document.querySelector('.equals');
-const plus = document.querySelector('.plus');
+const plusButton = document.querySelector('.plus');
+const subtractButton = document.querySelector('.subtract');
+const multiplyButton = document.querySelector('.multiply');
+const divideButton = document.querySelector('.divide');
 
 /*Saved Values*/
 let displayValue = '';
 display.innerText = 0;
-let currentValue = Number(displayValue);
-let secondValue = Number(displayValue);
+let arrayValues = [];
+let previousValue = 0;
+let solution = 0;
 let operation = "";
 
 /*Basic Math Functions*/
@@ -49,25 +52,55 @@ numbers.forEach(number => {
     number.addEventListener('click', changeDisplay);
 });
 
-
-plus.addEventListener('click', function() {
+/*Event Listeners for each operation*/
+plusButton.addEventListener('click', function() {
     operation = "add";
-    currentValue = add(currentValue, Number(displayValue));
+    arrayValues.push(Number(displayValue));
     displayValue = '';
+    if(arrayValues.length > 2){
+        arrayValues.shift();
+    }
+    currentValue = arrayValues.reduce((acc, value) => {
+        return acc + value;
+    }, 0);
+    arrayValues.pop();
+    arrayValues[0] = currentValue;
     display.innerText = currentValue;
-    console.log(currentValue);
 })
+
+subtractButton.addEventListener('click', function() {
+    // operation = "subtract";
+    // console.log(currentValue+"current");
+    // console.log(displayValue+"display");
+    // solution = subtract(Number(currentValue), Number(displayValue));
+    // console.log(solution);
+    // currentValue = solution;
+    // displayValue = '';
+    // display.innerText = currentValue;
+    // console.log(currentValue+"current");
+    // console.log(displayValue+"display");
+})
+
 
 equals.addEventListener('click', function() {
     display.innerText = operate(operation, currentValue, Number(displayValue));
-    console.log('did this work?')
+    console.log(currentValue+"current")
+    console.log(displayValue+"display")
+    solution = Number(display.innerText);
+    currentValue = 0;
+    displayValue = solution;
+    console.log(currentValue+"current")
+    console.log(displayValue+"display")
+    // currentValue = Number(display.innerText);
+    // displayValue = Number(display.innerText);
 })
 
 /*Refactored Functions*/
 function changeDisplay(e) {
     displayValue += e.target.value;
     display.innerText = displayValue;
-    return displayValue;
+    // currentValue = Number(display.innerText);
+    // return displayValue;
 }
 
 function valueReset() {
