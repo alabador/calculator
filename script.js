@@ -1,19 +1,17 @@
 /*DOM Elements*/
 const display = document.querySelector('.screen-text');
-const numbers = document.querySelectorAll('.number');
+const numbers = document.querySelectorAll('[data-value]');
+const operators = document.querySelectorAll('[data-operation]');
 const equals = document.querySelector('.equals');
-const plusButton = document.querySelector('.plus');
-const subtractButton = document.querySelector('.subtract');
-const multiplyButton = document.querySelector('.multiply');
-const divideButton = document.querySelector('.divide');
 
 /*Saved Values*/
-let displayValue = '';
 display.innerText = 0;
+let displayValue = display.textContent;
+
 let arrayValues = [];
-let previousValue = 0;
-let solution = 0;
 let operation = "";
+let previousOperator = '';
+let operationChosen = false;
 
 /*Basic Math Functions*/
 function add(a,b) {
@@ -33,16 +31,16 @@ function divide(a,b) {
 };
 
 function operate(operator,a,b) {
-    if (operator === 'add'){
+    if (operator === '+'){
         return add(a,b);
     }
-    else if (operator === 'subtract'){
+    else if (operator === '-'){
         return subtract(a,b);
     }
-    else if (operator === 'multiply'){
+    else if (operator === 'x'){
         return multiply(a,b);
     }
-    else if (operator === 'divide'){
+    else if (operator === '/'){
         return divide(a,b);
     }
 }
@@ -52,56 +50,87 @@ numbers.forEach(number => {
     number.addEventListener('click', changeDisplay);
 });
 
-/*Event Listeners for each operation*/
-plusButton.addEventListener('click', function() {
-    operation = "add";
-    arrayValues.push(Number(displayValue));
-    displayValue = '';
-    if(arrayValues.length > 2){
-        arrayValues.shift();
+function changeDisplay(e) {
+    if(displayValue == 0){
+        displayValue = '';
     }
-    currentValue = arrayValues.reduce((acc, value) => {
-        return acc + value;
-    }, 0);
-    arrayValues.pop();
-    arrayValues[0] = currentValue;
-    display.innerText = currentValue;
-})
-
-subtractButton.addEventListener('click', function() {
-    // operation = "subtract";
-    // console.log(currentValue+"current");
-    // console.log(displayValue+"display");
-    // solution = subtract(Number(currentValue), Number(displayValue));
-    // console.log(solution);
-    // currentValue = solution;
-    // displayValue = '';
-    // display.innerText = currentValue;
-    // console.log(currentValue+"current");
-    // console.log(displayValue+"display");
-})
+    displayValue += e.target.dataset.value;
+    display.textContent = displayValue;
+};
 
 
-equals.addEventListener('click', function() {
-    display.innerText = operate(operation, currentValue, Number(displayValue));
-    console.log(currentValue+"current")
-    console.log(displayValue+"display")
-    solution = Number(display.innerText);
-    currentValue = 0;
-    displayValue = solution;
-    console.log(currentValue+"current")
-    console.log(displayValue+"display")
-    // currentValue = Number(display.innerText);
-    // displayValue = Number(display.innerText);
+operators.forEach(operator => {
+    operator.addEventListener('click', setOperator());
+    operator.addEventListener('click', chooseOperation());
+    operator.addEventListener('click', setPreviousOperator());
 })
+
+function setOperator() {
+    return function() {
+        if (operation === '') {
+            return operation = this.dataset.operation;
+        }
+        else {
+            return operation = this.dataset.operation;
+        }
+    }
+}
+
+function setPreviousOperator() {
+    return function() {
+        return previousOperator = this.dataset.operation;
+    }
+}
+
+function chooseOperation() {
+    return function() {
+        if(arrayValues.length === 0) {
+            arrayValues.push(0);
+        }
+        else if(arrayValues.length <= 2) {
+            arrayValues.shift();
+        }
+        arrayValues.push(Number(displayValue));
+        
+        if(operationChosen === false){
+            if (operation === '-'){
+                arrayValues[0] = arrayValues[1]*2;
+            }
+            else if (operation === 'x'){
+                arrayValues[0] = 1;
+            }
+            else if (operation === '/') {
+                arrayValues[0] = arrayValues[1]*arrayValues[1];
+            } 
+        } 
+        
+        console.log(operation);
+        console.log(arrayValues);
+        operationChosen = true;
+
+        if(previousOperator === ''){
+            arrayValues[1] = operate(operation, arrayValues[0], arrayValues[1]);
+        }
+        else if(previousOperator !== operation) {
+            arrayValues[1] = operate(previousOperator, arrayValues[0], arrayValues[1]);
+        }
+        else {
+            arrayValues[1] = operate(operation, arrayValues[0], arrayValues[1]);
+        }
+        console.log(arrayValues);
+        display.textContent = arrayValues[1];
+        displayValue = '';
+
+    }
+}
+
+
+// equals.addEventListener('click', function() {
+//     display.innerText = operate(operation, currentValue, Number(displayValue));
+// })
+
 
 /*Refactored Functions*/
-function changeDisplay(e) {
-    displayValue += e.target.value;
-    display.innerText = displayValue;
-    // currentValue = Number(display.innerText);
-    // return displayValue;
-}
 
 function valueReset() {
     displayValue = '';
