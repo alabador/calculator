@@ -67,6 +67,6 @@ button.button {
     color: var(--font-color);
 }
 
-.button[value="0"] {
+.button[data-value="0"] {
     grid-column: 1/span 2;
 }
