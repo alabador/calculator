@@ -3,6 +3,7 @@ const display = document.querySelector('.screen-text');
 const numbers = document.querySelectorAll('[data-value]');
 const operators = document.querySelectorAll('[data-operation]');
 const equals = document.querySelector('.equals');
+const clear = document.querySelector('#clear');
 
 /*Saved Values*/
 display.innerText = 0;
@@ -116,6 +117,14 @@ function resetOperator() {
     previousOperator = '';
     operationChosen = false;
 }
+
+clear.addEventListener('click', function() {
+    display.innerText = 0;
+    displayValue = display.textContent;
+    arrayValues = [];
+    
+    resetOperator();
+})
 
 /*Basic Math Functions*/
 function add(a,b) {
