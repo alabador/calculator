@@ -13,6 +13,8 @@ let arrayValues = [];
 let operation = "";
 let previousOperator = '';
 let operationChosen = false;
+let errorPresent = false;
+let numberChosen = false;
 
 
 /*Link buttons to display value*/
@@ -27,6 +29,7 @@ function changeDisplay(e) {
     }
     displayValue += e.target.dataset.value;
     display.textContent = displayValue;
+    numberChosen = true;
 };
 
 
@@ -94,21 +97,33 @@ function chooseOperation() {
             arrayValues[1] = operate(operation, arrayValues[0], arrayValues[1]);
         }
         
+        if (displayValue == ''){
+            numberChosen = false;
+        }
+
         display.textContent = arrayValues[1];
         displayValue = '';
-
     }
 }
 
 equals.addEventListener('click', chooseOperation());
 equals.addEventListener('click', evaluate());
 
+
 function evaluate() {
     return function () {
+        if (numberChosen === false){
+            display.textContent = 'ERROR';
+            resetOperator();
+            arrayValues = [];
+            errorPresent = false;
+        }
+        else {
         arrayValues.shift();
         display.textContent = arrayValues[0];
         displayValue = arrayValues[0];
         resetOperator();
+        }
     };
 }
 
@@ -125,6 +140,8 @@ clear.addEventListener('click', function() {
     
     resetOperator();
 })
+
+
 
 /*Basic Math Functions*/
 function add(a,b) {
