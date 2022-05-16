@@ -4,6 +4,7 @@ const numbers = document.querySelectorAll('[data-value]');
 const operators = document.querySelectorAll('[data-operation]');
 const equals = document.querySelector('.equals');
 const clear = document.querySelector('#clear');
+const decimal = document.querySelector('.decimal');
 
 /*Saved Values*/
 display.innerText = 0;
@@ -13,7 +14,6 @@ let arrayValues = [];
 let operation = "";
 let previousOperator = '';
 let operationChosen = false;
-let errorPresent = false;
 let numberChosen = false;
 
 
@@ -26,6 +26,18 @@ numbers.forEach(number => {
 function changeDisplay(e) {
     if(displayValue == 0){
         displayValue = '';
+    } 
+    if(String(displayValue).includes('.')){
+        decimal.disabled = true;
+    }
+    if(operation == '=') {
+        displayValue = '';
+        display.textContent = '';
+        displayValue += e.target.dataset.value;
+        display.textContent = displayValue;
+        numberChosen = true;
+        previousOperator = '='
+        return;
     }
     displayValue += e.target.dataset.value;
     display.textContent = displayValue;
@@ -41,12 +53,7 @@ operators.forEach(operator => {
 
 function setOperator() {
     return function() {
-        if (operation === '') {
-            return operation = this.dataset.operation;
-        }
-        else {
-            return operation = this.dataset.operation;
-        }
+        return operation = this.dataset.operation;
     }
 };
 
@@ -63,6 +70,10 @@ function chooseOperation() {
         as arguments in operate()*/
         if(arrayValues.length === 0) {
             arrayValues.push(0);
+        }
+        else if (arrayValues.length === 1 && previousOperator === '=') {
+            arrayValues.unshift(0);
+            arrayValues.pop();
         }
         else if(arrayValues.length === 1) {
             arrayValues.unshift(0);
@@ -87,16 +98,22 @@ function chooseOperation() {
             }
             else if (operation === '/') {
                 arrayValues[0] = arrayValues[1]*arrayValues[1];
+            }
+            else if (operation === '=') {
+                operation = '+';
             } 
         } 
 
         operationChosen = true;
 
         /*Conditional for sequential or initial operations*/
-        if(previousOperator === ''){
+        if (previousOperator === '' && operation === ''){
+            return;
+        }
+        else if(previousOperator === ''){
             arrayValues[1] = operate(operation, arrayValues[0], arrayValues[1]);
         }
-        else if(previousOperator !== operation) {
+        else if(previousOperator !== operation && previousOperator !== '=') {
             arrayValues[1] = operate(previousOperator, arrayValues[0], arrayValues[1]);
         }
         else {
@@ -106,7 +123,7 @@ function chooseOperation() {
         if (displayValue == ''){
             numberChosen = false;
         }
-
+        decimal.disabled = false;
         display.textContent = arrayValues[1];
         displayValue = '';
     }
@@ -114,7 +131,6 @@ function chooseOperation() {
 
 equals.addEventListener('click', chooseOperation());
 equals.addEventListener('click', evaluate());
-
 
 function evaluate() {
     return function () {
@@ -129,6 +145,8 @@ function evaluate() {
         display.textContent = arrayValues[0];
         displayValue = arrayValues[0];
         resetOperator();
+        decimal.disabled = false;
+        operation = "=";
         }
     };
 }
@@ -138,6 +156,7 @@ function resetOperator() {
     previousOperator = '';
     operationChosen = false;
 }
+
 
 clear.addEventListener('click', function() {
     display.innerText = 0;
