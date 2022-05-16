@@ -59,6 +59,8 @@ function setPreviousOperator() {
 
 function chooseOperation() {
     return function() {
+        /*Ensures that array always has two values to be used 
+        as arguments in operate()*/
         if(arrayValues.length === 0) {
             arrayValues.push(0);
         }
@@ -73,6 +75,9 @@ function chooseOperation() {
         arrayValues.push(Number(displayValue));
         }
         
+        /*Rough code, but allows for these operations to be used
+        at beginning/0 */
+
         if(operationChosen === false){
             if (operation === '-'){
                 arrayValues[0] = arrayValues[1]*2;
@@ -87,6 +92,7 @@ function chooseOperation() {
 
         operationChosen = true;
 
+        /*Conditional for sequential or initial operations*/
         if(previousOperator === ''){
             arrayValues[1] = operate(operation, arrayValues[0], arrayValues[1]);
         }
