@@ -92,7 +92,7 @@ absolute.addEventListener('click', () => {
             negativeAdded = true;
         }
         else {
-            displayValue = displayValue.slice(0);
+            displayValue = displayValue.slice(1);
             display.textContent = displayValue;
             negativeAdded = false;
         }
