@@ -5,6 +5,7 @@ const operators = document.querySelectorAll('[data-operation]');
 const equals = document.querySelector('.equals');
 const clear = document.querySelector('#clear');
 const decimal = document.querySelector('.decimal');
+const back = document.querySelector('#back');
 
 /*Saved Values*/
 display.innerText = 0;
@@ -53,6 +54,16 @@ function changeDisplay(e) {
     numberChosen = true;
 };
 
+back.addEventListener('click', () => {
+    displayValue = displayValue.toString();
+    if(displayValue === '') {
+        return;
+    }
+    else {
+        displayValue = displayValue.slice(0, -1);
+        display.textContent = displayValue;
+    }
+})
 
 operators.forEach(operator => {
     operator.addEventListener('click', setOperator());
