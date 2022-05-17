@@ -33,16 +33,22 @@ function changeDisplay(e) {
     if(operation == '=') {
         displayValue = '';
         display.textContent = '';
-        displayValue += e.target.dataset.value;
-        // if (displayValue.length > 10){
 
-        // }
+        if (displayValue.length < 10){
+            displayValue += e.target.dataset.value;
+        }
+
+        // displayValue += e.target.dataset.value;
         display.textContent = displayValue;
         numberChosen = true;
         previousOperator = '='
         return;
     }
-    displayValue += e.target.dataset.value;
+    if (displayValue.length < 10){
+        displayValue += e.target.dataset.value;
+    }
+
+    // displayValue += e.target.dataset.value;
     display.textContent = displayValue;
     numberChosen = true;
 };
@@ -127,9 +133,13 @@ function chooseOperation() {
             numberChosen = false;
         }
 
-
-        if(arrayValues[1].toString().split('.')[1].length > 4){
-            arrayValues[1] = Number(arrayValues[1].toFixed(4));
+        if(arrayValues[1].toString().includes('.')){
+            if(arrayValues[1].toString().split('.')[1].length > 4){
+                arrayValues[1] = Number(arrayValues[1].toFixed(4));
+            }
+        }
+        else if(arrayValues[1].toString().length > 9) {
+            arrayValues[1] = Number(arrayValues[1]).toPrecision(8);
         }
 
         decimal.disabled = false;
@@ -151,6 +161,9 @@ function evaluate() {
         }
         else {
         arrayValues.shift();
+        if(arrayValues[0].toString().length > 9) {
+            arrayValues[0] = Number(arrayValues[0]).toPrecision(8);
+        }
         display.textContent = arrayValues[0];
         displayValue = arrayValues[0];
         resetOperator();
@@ -174,18 +187,6 @@ clear.addEventListener('click', function() {
     
     resetOperator();
 })
-
-function roundDecimal() {
-    let decimalString = arrayValues[1].toString();
-    if(decimalString.includes('.')){
-        if (countDecimal > 4){
-            return decimalString.toFixed(4);
-        }
-    }
-    else {
-        return;
-    }
-}
 
 function countDecimal() {
     return decimalString.split('.')[1].length;
