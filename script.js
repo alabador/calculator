@@ -2,6 +2,10 @@
 const display = document.querySelector('.screen-text');
 const numbers = document.querySelectorAll('[data-value]');
 const operators = document.querySelectorAll('[data-operation]');
+
+/*Keys*/
+// const numberKeys = document.querySelectorAll('')
+
 const equals = document.querySelector('.equals');
 const clear = document.querySelector('#clear');
 const decimal = document.querySelector('.decimal');
@@ -19,11 +23,6 @@ let operationChosen = false;
 let numberChosen = false;
 let negativeAdded = false;
 
-
-/*Link buttons to display value*/
-numbers.forEach(number => {
-    number.addEventListener('click', changeDisplay);
-});
 
 //Value is set here
 function changeDisplay(e) {
@@ -55,49 +54,6 @@ function changeDisplay(e) {
     display.textContent = displayValue;
     numberChosen = true;
 };
-
-back.addEventListener('click', () => {
-    displayValue = displayValue.toString();
-    if(displayValue === '') {
-        return;
-    }
-    else if(displayValue === 'ERROR') {
-        resetScreen();
-    }
-    else if (operation === '=') {
-        resetScreen();
-    }
-    else {
-        displayValue = displayValue.slice(0, -1);
-        display.textContent = displayValue;
-    }
-})
-
-clear.addEventListener('click', function() {
-    resetScreen();
-})
-
-
-operators.forEach(operator => {
-    operator.addEventListener('click', setOperator());
-    operator.addEventListener('click', chooseOperation());
-    operator.addEventListener('click', setPreviousOperator());
-});
-
-absolute.addEventListener('click', () => {
-    if (numberChosen === true) {
-        if(negativeAdded === false){
-            displayValue = '-' + displayValue;
-            display.textContent = displayValue;
-            negativeAdded = true;
-        }
-        else {
-            displayValue = displayValue.slice(1);
-            display.textContent = displayValue;
-            negativeAdded = false;
-        }
-    }
-})
 
 function setOperator() {
     return function() {
@@ -187,9 +143,6 @@ function chooseOperation() {
     }
 }
 
-equals.addEventListener('click', chooseOperation());
-equals.addEventListener('click', evaluate());
-
 function evaluate() {
     return function () {
         if (numberChosen === false){
@@ -230,7 +183,67 @@ function countDecimal() {
     return decimalString.split('.')[1].length;
 }
 
-/*Basic Math Functions*/
+
+
+/* --- Event Listeners --- */
+
+
+/*Link buttons to display value*/
+numbers.forEach(number => {
+    number.addEventListener('click', changeDisplay);
+});
+
+
+back.addEventListener('click', () => {
+    displayValue = displayValue.toString();
+    if(displayValue === '') {
+        return;
+    }
+    else if(displayValue === 'ERROR') {
+        resetScreen();
+    }
+    else if (operation === '=') {
+        resetScreen();
+    }
+    else {
+        displayValue = displayValue.slice(0, -1);
+        display.textContent = displayValue;
+    }
+})
+
+clear.addEventListener('click', function() {
+    resetScreen();
+})
+
+
+operators.forEach(operator => {
+    operator.addEventListener('click', setOperator());
+    operator.addEventListener('click', chooseOperation());
+    operator.addEventListener('click', setPreviousOperator());
+});
+
+absolute.addEventListener('click', () => {
+    if (numberChosen === true) {
+        if(negativeAdded === false){
+            displayValue = '-' + displayValue;
+            display.textContent = displayValue;
+            negativeAdded = true;
+        }
+        else {
+            displayValue = displayValue.slice(1);
+            display.textContent = displayValue;
+            negativeAdded = false;
+        }
+    }
+})
+
+equals.addEventListener('click', chooseOperation());
+equals.addEventListener('click', evaluate());
+
+
+
+/* --- Basic Math Functions --- */
+
 function add(a,b) {
     return a + b;
 };
