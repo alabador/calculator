@@ -59,17 +59,29 @@ back.addEventListener('click', () => {
     if(displayValue === '') {
         return;
     }
+    else if(displayValue === 'ERROR') {
+        resetScreen();
+    }
+    else if (operation === '=') {
+        resetScreen();
+    }
     else {
         displayValue = displayValue.slice(0, -1);
         display.textContent = displayValue;
     }
 })
 
+clear.addEventListener('click', function() {
+    resetScreen();
+})
+
+
 operators.forEach(operator => {
     operator.addEventListener('click', setOperator());
     operator.addEventListener('click', chooseOperation());
     operator.addEventListener('click', setPreviousOperator());
 });
+
 
 function setOperator() {
     return function() {
@@ -168,7 +180,6 @@ function evaluate() {
             display.textContent = 'ERROR';
             resetOperator();
             arrayValues = [];
-            errorPresent = false;
         }
         else {
         arrayValues.shift();
@@ -184,20 +195,20 @@ function evaluate() {
     };
 }
 
+function resetScreen() {
+    display.innerText = 0;
+    displayValue = display.textContent;
+    arrayValues = [];
+
+    resetOperator();
+}
+
 function resetOperator() {
     operation = '';
     previousOperator = '';
     operationChosen = false;
 }
 
-
-clear.addEventListener('click', function() {
-    display.innerText = 0;
-    displayValue = display.textContent;
-    arrayValues = [];
-    
-    resetOperator();
-})
 
 function countDecimal() {
     return decimalString.split('.')[1].length;
