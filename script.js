@@ -6,6 +6,7 @@ const equals = document.querySelector('.equals');
 const clear = document.querySelector('#clear');
 const decimal = document.querySelector('.decimal');
 const back = document.querySelector('#back');
+const absolute = document.querySelector('#absolute');
 
 /*Saved Values*/
 display.innerText = 0;
@@ -16,6 +17,7 @@ let operation = "";
 let previousOperator = '';
 let operationChosen = false;
 let numberChosen = false;
+let negativeAdded = false;
 
 
 /*Link buttons to display value*/
@@ -82,6 +84,20 @@ operators.forEach(operator => {
     operator.addEventListener('click', setPreviousOperator());
 });
 
+absolute.addEventListener('click', () => {
+    if (numberChosen === true) {
+        if(negativeAdded === false){
+            displayValue = '-' + displayValue;
+            display.textContent = displayValue;
+            negativeAdded = true;
+        }
+        else {
+            displayValue = displayValue.slice(0);
+            display.textContent = displayValue;
+            negativeAdded = false;
+        }
+    }
+})
 
 function setOperator() {
     return function() {
