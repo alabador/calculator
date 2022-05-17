@@ -34,6 +34,9 @@ function changeDisplay(e) {
         displayValue = '';
         display.textContent = '';
         displayValue += e.target.dataset.value;
+        // if (displayValue.length > 10){
+
+        // }
         display.textContent = displayValue;
         numberChosen = true;
         previousOperator = '='
@@ -123,6 +126,12 @@ function chooseOperation() {
         if (displayValue == ''){
             numberChosen = false;
         }
+
+
+        if(arrayValues[1].toString().split('.')[1].length > 4){
+            arrayValues[1] = Number(arrayValues[1].toFixed(4));
+        }
+
         decimal.disabled = false;
         display.textContent = arrayValues[1];
         displayValue = '';
@@ -166,7 +175,21 @@ clear.addEventListener('click', function() {
     resetOperator();
 })
 
+function roundDecimal() {
+    let decimalString = arrayValues[1].toString();
+    if(decimalString.includes('.')){
+        if (countDecimal > 4){
+            return decimalString.toFixed(4);
+        }
+    }
+    else {
+        return;
+    }
+}
 
+function countDecimal() {
+    return decimalString.split('.')[1].length;
+}
 
 /*Basic Math Functions*/
 function add(a,b) {
