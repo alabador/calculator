@@ -83,86 +83,86 @@ function setOperator(e) {
 //Saves previous operator for sequential operations
 function setPreviousOperator(e) {
     if (e.target.hasAttribute('data-operation')){
-        return operation = e.target.dataset.operation;
+        return previousOperator = e.target.dataset.operation;
     }
     if ('key' in e){
-        return operation = e.key;
+        return previousOperator = e.key;
     }
 };
 
 function chooseOperation() {
-    return function() {
-        /*Ensures that array always has two values to be used 
-        as arguments in operate()*/
-        if(arrayValues.length === 0) {
-            arrayValues.push(0);
-        }
-        else if (arrayValues.length === 1 && previousOperator === '=') {
-            arrayValues.unshift(0);
-            arrayValues.pop();
-        }
-        else if(arrayValues.length === 1) {
-            arrayValues.unshift(0);
-        }
-        else if(arrayValues.length <= 2) {
-            arrayValues.shift();
-        }
-        
-        if(arrayValues.length < 2){
-        arrayValues.push(Number(displayValue));
-        }
-        
-        /*Rough code, but allows for these operations to be used
-        at beginning/0 */
-
-        if(operationChosen === false){
-            if (operation === '-'){
-                arrayValues[0] = arrayValues[1]*2;
-            }
-            else if (operation === 'x'){
-                arrayValues[0] = 1;
-            }
-            else if (operation === '/') {
-                arrayValues[0] = arrayValues[1]*arrayValues[1];
-            }
-            else if (operation === '=') {
-                operation = '+';
-            } 
-        } 
-
-        operationChosen = true;
-
-        /*Conditional for sequential or initial operations*/
-        if (previousOperator === '' && operation === ''){
-            return;
-        }
-        else if(previousOperator === ''){
-            arrayValues[1] = operate(operation, arrayValues[0], arrayValues[1]);
-        }
-        else if(previousOperator !== operation && previousOperator !== '=') {
-            arrayValues[1] = operate(previousOperator, arrayValues[0], arrayValues[1]);
-        }
-        else {
-            arrayValues[1] = operate(operation, arrayValues[0], arrayValues[1]);
-        }
-        
-        if (displayValue == ''){
-            numberChosen = false;
-        }
-
-        if(arrayValues[1].toString().includes('.')){
-            if(arrayValues[1].toString().split('.')[1].length > 4){
-                arrayValues[1] = Number(arrayValues[1].toFixed(4));
-            }
-        }
-        else if(arrayValues[1].toString().length > 9) {
-            arrayValues[1] = Number(arrayValues[1]).toPrecision(8);
-        }
-
-        decimal.disabled = false;
-        display.textContent = arrayValues[1];
-        displayValue = '';
+    
+    /*Ensures that array always has two values to be used 
+    as arguments in operate()*/
+    if(arrayValues.length === 0) {
+        arrayValues.push(0);
     }
+    else if (arrayValues.length === 1 && previousOperator === '=') {
+        arrayValues.unshift(0);
+        arrayValues.pop();
+    }
+    else if(arrayValues.length === 1) {
+        arrayValues.unshift(0);
+    }
+    else if(arrayValues.length <= 2) {
+        arrayValues.shift();
+    }
+    
+    if(arrayValues.length < 2){
+    arrayValues.push(Number(displayValue));
+    }
+    
+    /*Rough code, but allows for these operations to be used
+    at beginning/0 */
+
+    if(operationChosen === false){
+        if (operation === '-'){
+            arrayValues[0] = arrayValues[1]*2;
+        }
+        else if (operation === '*'){
+            arrayValues[0] = 1;
+        }
+        else if (operation === '/') {
+            arrayValues[0] = arrayValues[1]*arrayValues[1];
+        }
+        else if (operation === '=') {
+            operation = '+';
+        }
+    } 
+
+    operationChosen = !operationChosen;
+
+    /*Conditional for sequential or initial operations*/
+    if (previousOperator === '' && operation === ''){
+        return;
+    }
+    else if(previousOperator === ''){ //add condition for dividing.
+        arrayValues[1] = operate(operation, arrayValues[0], arrayValues[1]);
+    }
+    else if(previousOperator !== operation && previousOperator !== '=') {
+        arrayValues[1] = operate(previousOperator, arrayValues[0], arrayValues[1]);
+    }
+    else {
+        arrayValues[1] = operate(operation, arrayValues[0], arrayValues[1]);
+    }
+    
+    if (displayValue == ''){
+        numberChosen = false;
+    }
+
+    if(arrayValues[1].toString().includes('.')){
+        if(arrayValues[1].toString().split('.')[1].length > 4){
+            arrayValues[1] = Number(arrayValues[1].toFixed(4));
+        }
+    }
+    else if(arrayValues[1].toString().length > 9) {
+        arrayValues[1] = Number(arrayValues[1]).toPrecision(8);
+    }
+
+    decimal.disabled = false;
+    display.textContent = arrayValues[1];
+    displayValue = '';
+    
 }
 
 function evaluate() {
@@ -201,6 +201,7 @@ function resetOperator() {
 }
 
 
+
 function countDecimal() {
     return decimalString.split('.')[1].length;
 }
@@ -226,7 +227,7 @@ document.addEventListener('keydown', e => {
         e.key == "*" ||
         e.key == "/"){
         setOperator(e);
-        chooseOperation(e);
+        chooseOperation();
         setPreviousOperator(e);
     }    
 })
@@ -257,7 +258,7 @@ clear.addEventListener('click', function() {
 
 operators.forEach(operator => {
     operator.addEventListener('click', setOperator);
-    operator.addEventListener('click', chooseOperation());
+    operator.addEventListener('click', chooseOperation);
     operator.addEventListener('click', setPreviousOperator);
 });
 
@@ -276,7 +277,7 @@ absolute.addEventListener('click', () => {
     }
 })
 
-equals.addEventListener('click', chooseOperation());
+equals.addEventListener('click', chooseOperation);
 equals.addEventListener('click', evaluate());
 
 
@@ -311,7 +312,7 @@ function operate(operator,a,b) {
     else if (operator === '-'){
         return subtract(a,b);
     }
-    else if (operator === 'x'){
+    else if (operator === '*'){
         return multiply(a,b);
     }
     else if (operator === '/'){
