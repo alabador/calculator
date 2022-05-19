@@ -27,9 +27,6 @@ let negativeAdded = false;
 
 //Value is set here
 function changeDisplay(e) {
-    console.log(e);
-    console.log(e.target);
-    console.log(e.target.hasAttribute('dataset'));
 
     if(displayValue == 0){
         displayValue = '';
@@ -47,7 +44,7 @@ function changeDisplay(e) {
             if (e.target.hasAttribute('data-value')){
                 displayValue += e.target.dataset.value;
             }
-            else if (e.hasAttribute('key')){
+            else if ('key' in e){
                 displayValue += e.key;
             }
             // displayValue += e.target.dataset.value;
@@ -63,7 +60,8 @@ function changeDisplay(e) {
         if (e.target.hasAttribute('data-value')){
             displayValue += e.target.dataset.value;
         }
-        else {
+        else if ('key' in e) {
+            console.log(e.hasOwnProperty('key'));
             displayValue += e.key;
         }
         // displayValue += e.target.dataset.value;
@@ -73,14 +71,18 @@ function changeDisplay(e) {
     numberChosen = true;
 };
 
-function setOperator() {
-    return function() {
-        return operation = this.dataset.operation;
+function setOperator(e) {
+    if (e.target.hasAttribute('data-operation')){
+        return operation = e.dataset.operation;
+    }
+    if ('key' in e){
+        return operation = e.key;
     }
 };
 
+
 //Saves previous operator for sequential operations
-function setPreviousOperator() {
+function setPreviousOperator(e) {
     return function() {
         return previousOperator = this.dataset.operation;
     }
@@ -213,12 +215,18 @@ numbers.forEach(number => {
 
 
 document.addEventListener('keydown', e => {
-    changeDisplay(e);
-
-    // numbers.forEach(number => {
-    //     //make the keyvalue input find the equivalent data value
-    // });
-    
+    if((Number(e.key) >= 0 && Number(e.key) < 10) || e.key == '.'){
+        changeDisplay(e); 
+    }
+    if (
+        e.key == "+" || 
+        e.key == "-" ||
+        e.key == "*" ||
+        e.key == "/"){
+        setOperator(e);
+        chooseOperation(e);
+        setPreviousOperator(e);
+    }    
 })
 
 
@@ -246,9 +254,9 @@ clear.addEventListener('click', function() {
 
 
 operators.forEach(operator => {
-    operator.addEventListener('click', setOperator());
-    operator.addEventListener('click', chooseOperation());
-    operator.addEventListener('click', setPreviousOperator());
+    operator.addEventListener('click', setOperator);
+    operator.addEventListener('click', chooseOperation);
+    operator.addEventListener('click', setPreviousOperator);
 });
 
 absolute.addEventListener('click', () => {
