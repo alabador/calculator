@@ -27,6 +27,10 @@ let negativeAdded = false;
 
 //Value is set here
 function changeDisplay(e) {
+    console.log(e);
+    console.log(e.target);
+    console.log(e.target.hasAttribute('dataset'));
+
     if(displayValue == 0){
         displayValue = '';
     } 
@@ -40,7 +44,7 @@ function changeDisplay(e) {
         display.textContent = '';
 
         if (displayValue.length < 10){
-            if (e.target.hasAttribute('dataset')){
+            if (e.target.hasAttribute('data-value')){
                 displayValue += e.target.dataset.value;
             }
             else if (e.hasAttribute('key')){
@@ -56,7 +60,7 @@ function changeDisplay(e) {
     }
 
     if (displayValue.length < 10){
-        if (e.target.hasAttribute('dataset')){
+        if (e.target.hasAttribute('data-value')){
             displayValue += e.target.dataset.value;
         }
         else {
