@@ -61,7 +61,6 @@ function changeDisplay(e) {
             displayValue += e.target.dataset.value;
         }
         else if ('key' in e) {
-            console.log(e.hasOwnProperty('key'));
             displayValue += e.key;
         }
         // displayValue += e.target.dataset.value;
@@ -73,7 +72,7 @@ function changeDisplay(e) {
 
 function setOperator(e) {
     if (e.target.hasAttribute('data-operation')){
-        return operation = e.dataset.operation;
+        return operation = e.target.dataset.operation;
     }
     if ('key' in e){
         return operation = e.key;
@@ -83,8 +82,11 @@ function setOperator(e) {
 
 //Saves previous operator for sequential operations
 function setPreviousOperator(e) {
-    return function() {
-        return previousOperator = this.dataset.operation;
+    if (e.target.hasAttribute('data-operation')){
+        return operation = e.target.dataset.operation;
+    }
+    if ('key' in e){
+        return operation = e.key;
     }
 };
 
@@ -255,7 +257,7 @@ clear.addEventListener('click', function() {
 
 operators.forEach(operator => {
     operator.addEventListener('click', setOperator);
-    operator.addEventListener('click', chooseOperation);
+    operator.addEventListener('click', chooseOperation());
     operator.addEventListener('click', setPreviousOperator);
 });
 
