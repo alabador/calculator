@@ -13,3 +13,5 @@ A calculator created using HTML, CSS, and JS.
 - [Keycode Values](https://www.toptal.com/developers/keycode)
 - [hasAttribute()](https://developer.mozilla.org/en-US/docs/Web/API/Element/hasAttribute)
 - [Using Data attributes](https://stackoverflow.com/questions/32249997/how-to-check-if-data-attribute-exist-with-plain-javascript)
+- [hasAttribute() vs hasOwnProperty()](https://stackoverflow.com/questions/34601497/hasattribute-vs-hasownproperty)
+- [How to check if property exists] (https://www.javascripttutorial.net/object/javascript-check-if-property-exists/)
