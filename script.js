@@ -88,6 +88,7 @@ function setPreviousOperator(e) {
     if ('key' in e){
         return previousOperator = e.key;
     }
+    operationChosen = !operationChosen;
 };
 
 function chooseOperation() {
@@ -128,9 +129,10 @@ function chooseOperation() {
         else if (operation === '=') {
             operation = '+';
         }
+        operationChosen = true;
     } 
 
-    operationChosen = !operationChosen;
+    // operationChosen = !operationChosen;
 
     /*Conditional for sequential or initial operations*/
     if (previousOperator === '' && operation === ''){
@@ -221,7 +223,10 @@ document.addEventListener('keydown', e => {
     if((Number(e.key) >= 0 && Number(e.key) < 10) || e.key == '.'){
         changeDisplay(e); 
     }
-    if (
+    else if (e.key == "Shift"){
+        console.log('pressed');
+    }
+    else if (
         e.key == "+" || 
         e.key == "-" ||
         e.key == "*" ||
@@ -229,6 +234,10 @@ document.addEventListener('keydown', e => {
         setOperator(e);
         chooseOperation();
         setPreviousOperator(e);
+    }
+    else if (e.key = 'Enter'){
+        chooseOperation();
+        evaluate();
     }    
 })
 
