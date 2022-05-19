@@ -14,6 +14,7 @@ const absolute = document.querySelector('#absolute');
 
 /*Saved Values*/
 display.innerText = 0;
+let keyValue = 0;
 let displayValue = display.textContent;
 
 let arrayValues = [];
@@ -29,28 +30,41 @@ function changeDisplay(e) {
     if(displayValue == 0){
         displayValue = '';
     } 
+    
     if(String(displayValue).includes('.')){
         decimal.disabled = true;
     }
+
     if(operation == '=') {
         displayValue = '';
         display.textContent = '';
 
         if (displayValue.length < 10){
-            displayValue += e.target.dataset.value;
+            if (e.target.hasAttribute('dataset')){
+                displayValue += e.target.dataset.value;
+            }
+            else if (e.hasAttribute('key')){
+                displayValue += e.key;
+            }
+            // displayValue += e.target.dataset.value;
         }
 
-        // displayValue += e.target.dataset.value;
         display.textContent = displayValue;
         numberChosen = true;
         previousOperator = '='
         return;
     }
+
     if (displayValue.length < 10){
-        displayValue += e.target.dataset.value;
+        if (e.target.hasAttribute('dataset')){
+            displayValue += e.target.dataset.value;
+        }
+        else {
+            displayValue += e.key;
+        }
+        // displayValue += e.target.dataset.value;
     }
 
-    // displayValue += e.target.dataset.value;
     display.textContent = displayValue;
     numberChosen = true;
 };
@@ -192,6 +206,17 @@ function countDecimal() {
 numbers.forEach(number => {
     number.addEventListener('click', changeDisplay);
 });
+
+
+document.addEventListener('keydown', e => {
+    changeDisplay(e);
+
+    // numbers.forEach(number => {
+    //     //make the keyvalue input find the equivalent data value
+    // });
+    
+})
+
 
 
 back.addEventListener('click', () => {
