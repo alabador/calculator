@@ -1,6 +1,9 @@
 # calculator
 A calculator created using HTML, CSS, and JS.
 
+## Links
+- [Live Site](https://alabador.github.io/calculator/)
+
 ## To-Do/Issues
 - I added keyboard functionality for the numbers and operators, but I still need to add it for Clear, Backspace, and absolute buttons. 
 - Adding keyboard functionality potentially broke/and fixed(?) some bugs on calculator. I'm not sure. For some reason the calculator works half the time when on keyboard, specifically when switching between multiple sequential operations. When revisiting this, it has most likely something to do with the operationChosen boolean.
